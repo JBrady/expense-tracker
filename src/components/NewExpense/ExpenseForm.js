@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import './ExpenseForm.css'
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   // Using 'State Slices' technique
   const [enteredTitle, setEnteredTitle] = useState('')
   const [enteredAmount, setEnteredAmount] = useState('')
@@ -64,13 +64,14 @@ const ExpenseForm = () => {
 
   const submitHandler = (event) => {
     event.preventDefault()
+
     const expenseData = {
       title: enteredTitle,
       amount: enteredAmount,
       date: new Date(enteredDate + 'T00:00:00'), // The JavaScript Date object constructor has a weird rule. If it gets a date without a time, it defaults to UTC instead of the local timezone. To get around this we need to enter the time manually. I use 00:00 (12:00 AM) here but it can be changed to whatever time that's required.
     }
 
-    console.log(expenseData)
+    props.onSaveExpenseData(expenseData)
     // Adding two-way binding
     setEnteredTitle('')
     setEnteredAmount('')
@@ -84,7 +85,7 @@ const ExpenseForm = () => {
           <label>Title</label>
           <input
             type='text'
-            value={enteredTitle} // Adding two-way binding
+            value={enteredTitle}
             onChange={titleChangeHandler}
           />
         </div>
@@ -94,7 +95,7 @@ const ExpenseForm = () => {
             type='number'
             min='0.01'
             step='0.01'
-            value={enteredAmount} // Adding two-way binding
+            value={enteredAmount}
             onChange={amountChangeHandler}
           />
         </div>
@@ -104,7 +105,7 @@ const ExpenseForm = () => {
             type='date'
             min='2019-01-01'
             max='2022-12-31'
-            value={enteredDate} // Adding two-way binding
+            value={enteredDate}
             onChange={dateChangeHandler}
           />
         </div>
